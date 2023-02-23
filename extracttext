@@ -17,26 +17,25 @@
 # - xsel
 #
 
-# Search the commands
-TESSERACT_CMD=$(which tesseract)
-IMPORT_CMD=$(which import)  
-XSEL_CMD=$(which xsel)
+# Dependencies array
+DEPENDENCIES=(tesseract import xsel)
 
 # Verify if dependencies are installed
-if [ ! -x $TESSERACT_CMD ]; then
-    echo "tesseract-ocr is not installed"
+# for each dependency in the array
+for DEPENDENCY in ${DEPENDENCIES[@]} ; do
+  # if the dependency is not installed
+  if [ -z $(which $DEPENDENCY) ] ; then
+    # print a message and exit
+    echo "$DEPENDENCY not installed. Aborting"
     exit 1
-fi
+  fi
+done
 
-if [ ! -x $IMPORT_CMD ]; then
-    echo "imagemagick is not installed"
-    exit 1
-fi
-
-if [ ! -x $XSEL_CMD ]; then
-    echo "xsel is not installed"
-    exit 1
-fi
+# If all dependencies are installed
+# set the commands to variables
+TESSERACT_CMD=$(which tesseract)
+IMPORT_CMD=$(which import)
+XSEL_CMD="$(which xsel) -b"
 
 IMG_TEMP=/tmp/extract-text-$(date +%s).png
 
