@@ -17,9 +17,26 @@
 # - xsel
 #
 
-TESSERACT_CMD="/usr/bin/tesseract"
-IMPORT_CMD="/usr/bin/import"
-XSEL_CMD="/usr/bin/xsel -b"
+# Search the commands
+TESSERACT_CMD=$(which tesseract)
+IMPORT_CMD=$(which import)  
+XSEL_CMD=$(which xsel)
+
+# Verify if dependencies are installed
+if [ ! -x $TESSERACT_CMD ]; then
+    echo "tesseract-ocr is not installed"
+    exit 1
+fi
+
+if [ ! -x $IMPORT_CMD ]; then
+    echo "imagemagick is not installed"
+    exit 1
+fi
+
+if [ ! -x $XSEL_CMD ]; then
+    echo "xsel is not installed"
+    exit 1
+fi
 
 IMG_TEMP=/tmp/extract-text-$(date +%s).png
 
