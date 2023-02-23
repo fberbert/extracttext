@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# Author:  Fábio Berbert de Paula <fberbert at gmail dot com>
+# Date:    2023-02-23
+# License: GPLv3
+# Version: 0.1
+#
+# This script uses:
+#
+# - ImageMagick to take a print screen of a screen area
+# - tesseract-ocr to extract text from the print screen
+# - xsel to copy the extracted text to the clipboard
+#
+# Dependencies:
+# - imagemagick
+# - tesseract-ocr
+# - xsel
+#
+
+TESSERACT_CMD="/usr/bin/tesseract"
+IMPORT_CMD="/usr/bin/import"
+XSEL_CMD="/usr/bin/xsel -b"
+
+IMG_TEMP=/tmp/extract-text-$(date +%s).png
+
+# Take a print screen of the area
+$IMPORT_CMD $IMG_TEMP
+
+# Extract text from the print screen
+$TESSERACT_CMD $IMG_TEMP stdout | $XSEL_CMD
+
+# Remove the print screen
+rm $IMG_TEMP
+
+# Copy the extracted text to the clipboard
+$XSEL_CMD -o
