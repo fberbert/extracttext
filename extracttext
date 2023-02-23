@@ -46,7 +46,7 @@ $IMPORT_CMD $IMG_TEMP
 # remove multiple blank lines
 # remove control characters
 # and copy the text to the clipboard
-$TESSERACT_CMD $IMG_TEMP stdout | sed '/^$/N;/^\n$/D' | tr -d '\000-\037' | $XSEL_CMD
+$TESSERACT_CMD $IMG_TEMP stdout | sed '/^$/N;/^\n$/D' | $XSEL_CMD
 
 # Remove the print screen
 rm $IMG_TEMP
